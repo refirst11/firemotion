@@ -4,7 +4,7 @@ let anchor: HTMLAnchorElement | null
 let firstmount = false
 const useCapture = true
 
-const clix = (classes: [string, string, string?], exit?: number) => {
+export const clix = (classes: [string, string, string?], exit?: number) => {
   const ref = useRef(classes)
   const [hasDelay, setHasDelay] = useState(false)
   const [state, setState] = useState('')
@@ -82,4 +82,3 @@ const clix = (classes: [string, string, string?], exit?: number) => {
 
   return state !== '' ? state : ref.current[0]
 }
-export default clix
