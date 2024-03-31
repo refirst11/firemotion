@@ -1,14 +1,15 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 
 let anchor: HTMLAnchorElement | null
-let firstmount = false
+let firstmount = true
 const useCapture = true
 
-export const clix = (classes: [string, string, string?], exit?: number) => {
+export const useClix = (classes: [string, string, string?], exit?: number) => {
   const ref = useRef(classes)
+  const defaultValue = firstmount ? ref.current[0] : ref.current[1]
   const [hasDelay, setHasDelay] = useState(false)
   const [state, setState] = useState('')
-
+  
   const getClientClassElement = useCallback(() => {
     const oneClassElement = document.getElementsByClassName(ref.current[0])[0]
     if (oneClassElement instanceof HTMLElement) return oneClassElement
@@ -34,7 +35,8 @@ export const clix = (classes: [string, string, string?], exit?: number) => {
       if (classElement == null) return
 
       if (!ref.current[2]) return
-      setState(ref.current[0] + ' ' + ref.current[2])
+      setState(ref.current[2])
+      
       e.preventDefault()
       if (typeof exit != 'undefined')
         setTimeout(() => {
@@ -63,7 +65,7 @@ export const clix = (classes: [string, string, string?], exit?: number) => {
   useLayoutEffect(() => {
     innerEffect()
     document.body.addEventListener('click', clickHandler, useCapture)
-
+    
     return () => {
       document.body.removeEventListener('click', clickHandler, useCapture)
     }
@@ -71,15 +73,15 @@ export const clix = (classes: [string, string, string?], exit?: number) => {
 
   // ---------- Initial styles. entry the class second of array //
   useLayoutEffect(() => {
-    if (firstmount) setState(ref.current[0] + ' ' + ref.current[1])
-
-    firstmount = true
-    const cleanup = ref.current[0]
+    setState(ref.current[0])
+  
+    firstmount = false
+    const cleanup = ref.current[1]
 
     return () => {
       setState(cleanup)
     }
   }, [])
-
-  return state !== '' ? state : ref.current[0]
+  
+  return state || defaultValue
 }
