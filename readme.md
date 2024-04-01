@@ -18,5 +18,5 @@ className={useAnimation(baseClass, [initialClass, exitClass], 0.2)}
 ```
 
 first argument is set a base CSS style.
-The second argument is set initial style and exit style.
+The second argument is set initial style and exit style.  
 The three argument is exit time.
