@@ -1,22 +1,20 @@
 # firemotion
 
-motion animate use only CSS library
-
-## CSS Animation kit
+## React Animation hooks mini pack
 
 This is for Easy and simple CSS animation.  
-A build advanced UI using CSS variables.
-
-### code (sampler)
+A build advanced UI using Hooks.
 
 ## useAnimation
 
-A initial and exit mount animation.
+Animation of screen transition.  
+You can set initial and exit (option).
 
 ```tsx
-className={useAnimation(baseClass, [initialClass, exitClass], 0.2)}
+const animate = useAnimation(styles.base, [styles.initial, styles.exit], 0.5)
+return <div className={animate}>...</div>
 ```
 
-first argument is set a base CSS style.
-The second argument is set initial style and exit style.  
-The three argument is exit time.
+Set the base class in the first argument.  
+Set the initial animation and exit animation in the second argument.  
+The third argument is the exit wait time.
