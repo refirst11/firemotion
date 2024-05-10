@@ -1,12 +1,13 @@
 {
   "name": "firemotion",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "React hooks mini pack Screen transition animation and Image animation",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/refirst11/firemotion.git"
+    "url": "git+https://github.com/refirst11/firemotion.git",
+    "directory": "firemotion/src"
   },
   "scripts": {
     "test": "vitest 'test/use-animation.test.js'"
