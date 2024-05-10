@@ -1,2 +1,2 @@
-import { clix } from './clix'
-export { clix }
+import { useAnimation } from './use-animation'
+export { useAnimation }
