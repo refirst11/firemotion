@@ -5,4 +5,4 @@ dist
 .vscode
 .prettierrc
 .prettierignore
-pnpm-lock.yaml
+package-lock.json
