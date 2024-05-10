@@ -1,20 +1,23 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 
 let anchor: HTMLAnchorElement | null
-let firstmount = true
+let cleanupDom: HTMLElement | null
+
 const useCapture = true
 
-export const useAnimation = (base: string, classes: [string, string?], exit?: number) => {
+export const useAnimation = (
+  base: string,
+  classes: [string, string?],
+  exit?: number
+) => {
   const ref = useRef(classes)
-  const defaultValue = firstmount ? base : ref.current[0]
   const [hasDelay, setHasDelay] = useState(false)
-  const [state, setState] = useState('')
-  
+
   const getClientClassElement = useCallback(() => {
     const oneClassElement = document.getElementsByClassName(base)[0]
     if (oneClassElement instanceof HTMLElement) return oneClassElement
     else return null
-  }, [])
+  }, [base])
 
   const eventTargetHTMLElement = (e: MouseEvent) => {
     const clickTarget = e.target
@@ -35,14 +38,14 @@ export const useAnimation = (base: string, classes: [string, string?], exit?: nu
       if (classElement == null) return
 
       if (!ref.current[1]) return
-      setState(ref.current[1])
-      
+      classElement.className = ref.current[1]
       e.preventDefault()
       if (typeof exit != 'undefined')
         setTimeout(() => {
           setHasDelay(true)
         }, exit * 1000)
       anchor = anchorElement
+      cleanupDom = classElement
     },
     [exit, getClientClassElement]
   )
@@ -60,28 +63,39 @@ export const useAnimation = (base: string, classes: [string, string?], exit?: nu
     anchor = null
   }, [hasDelay])
 
-  // ---------- Entry Effect//
-  // ---------- Exits styles. entry the class third of array //
+  // ---------- Entry effect - //
+  useLayoutEffect(() => {
+    const classElement = getClientClassElement()
+    if (classElement == null) return
+    if (ref.current[1] == undefined) return
+
+    // To the starting state class.
+    classElement.className = ref.current[1]
+    const animateId = requestAnimationFrame(() => {
+      // Switch to base class and start animation
+      classElement.className = base
+    })
+
+    return () => {
+      cancelAnimationFrame(animateId)
+    }
+  }, [base, getClientClassElement])
+
+  // ---------- Exit effect - //
   useLayoutEffect(() => {
     innerEffect()
+    const cleanup = ref.current[0] // Initial class.
     document.body.addEventListener('click', clickHandler, useCapture)
-    
+
     return () => {
       document.body.removeEventListener('click', clickHandler, useCapture)
+      if (cleanupDom == null) return
+
+      // Return to the initial state of the class and end the animation.
+      cleanupDom.className = cleanup
+      cleanupDom = null
     }
   }, [clickHandler, innerEffect])
 
-  // ---------- Initial styles. entry the class second of array //
-  useLayoutEffect(() => {
-    setState(base)
-  
-    firstmount = false
-    const cleanup = ref.current[0]
-
-    return () => {
-      setState(cleanup)
-    }
-  }, [])
-  
-  return state || defaultValue
+  return base
 }
