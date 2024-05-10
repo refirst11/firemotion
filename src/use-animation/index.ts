@@ -38,6 +38,7 @@ export const useAnimation = (
       if (classElement == null) return
 
       if (!ref.current[1]) return
+      // To the exit state class and end animation.
       classElement.className = ref.current[1]
       e.preventDefault()
       if (typeof exit != 'undefined')
@@ -63,16 +64,15 @@ export const useAnimation = (
     anchor = null
   }, [hasDelay])
 
-  // ---------- Entry effect - //
+  // ---------- Initial effect - //
   useLayoutEffect(() => {
     const classElement = getClientClassElement()
     if (classElement == null) return
-    if (ref.current[1] == undefined) return
 
-    // To the starting state class.
-    classElement.className = ref.current[1]
+    // To the initial state class.
+    classElement.className = ref.current[0]
     const animateId = requestAnimationFrame(() => {
-      // Switch to base class and start animation
+      // To the base class and start animation
       classElement.className = base
     })
 
@@ -91,7 +91,7 @@ export const useAnimation = (
       document.body.removeEventListener('click', clickHandler, useCapture)
       if (cleanupDom == null) return
 
-      // Return to the initial state of the class and end the animation.
+      // cleanup to the initial state class and end the animation.
       cleanupDom.className = cleanup
       cleanupDom = null
     }
