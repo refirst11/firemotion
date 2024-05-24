@@ -15,6 +15,6 @@ const animate = useAnimation(styles.base, [styles.initial, styles.exit], 0.5)
 return <div className={animate}>...</div>
 ```
 
-Set the base class in the first argument.  
-Set the initial animation and exit animation in the second argument.  
-The third argument is the exit wait time.
+styles.base is the base styles applied.  
+[styles.initial, styles.exit] is an array with the initial animation styles followed by the exit animation styles.  
+0.5 is the exit wait time.
