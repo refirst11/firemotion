@@ -2,6 +2,7 @@ import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 
 let anchor: HTMLAnchorElement | null
 let cleanupDom: HTMLElement | null
+let isMounted = false
 
 const useCapture = true
 
@@ -66,6 +67,10 @@ export const useAnimation = (
 
   // ---------- Initial effect - //
   useLayoutEffect(() => {
+    if (!isMounted) {
+      isMounted = true
+      return
+    }
     const classElement = getClientClassElement()
     if (classElement == null) return
 
