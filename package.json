@@ -1,6 +1,6 @@
 {
   "name": "firemotion",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "React hooks mini pack Screen transition animation and Image animation",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -13,14 +13,13 @@
     "test": "vitest 'test/use-animation.test.js'"
   },
   "license": "MIT",
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+  "devDependencies": {
+    "@types/css-modules": "^1.0.5",
+    "@types/react": "^18.2.47",
     "typescript": "^5.3.3",
     "vitest": "^1.2.1"
   },
-  "devDependencies": {
-    "@types/css-modules": "^1.0.5",
-    "@types/react": "^18.2.47"
+  "dependencies": {
+    "react": "^18.3.1"
   }
 }
