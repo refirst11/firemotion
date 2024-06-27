@@ -27,7 +27,7 @@ export const useAnimation = (
   }
 
   const isExternalLink = (href: string) => {
-    return href.includes('http') && !href.includes(window.location.host)
+    return href.includes('http') || !href.includes(window.location.host)
   }
 
   const clickHandler = useCallback(
