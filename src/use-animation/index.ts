@@ -26,6 +26,10 @@ export const useAnimation = (
     else return null
   }
 
+  const isExternalLink = (href: string) => {
+    return !href.includes(window.location.host)
+  }
+
   const clickHandler = useCallback(
     (e: MouseEvent) => {
       const target = eventTargetHTMLElement(e)
@@ -33,6 +37,7 @@ export const useAnimation = (
 
       const anchorElement = target.closest('a')
       if (anchorElement == null) return
+      if (isExternalLink(anchorElement.href)) return
       if (window.location.href === anchorElement.href) return
 
       const classElement = getClientClassElement()
