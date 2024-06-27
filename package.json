@@ -1,6 +1,6 @@
 {
   "name": "firemotion",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "React hooks mini pack Screen transition animation and Image animation",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
