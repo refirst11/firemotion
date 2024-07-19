@@ -8,11 +8,12 @@ const useCapture = true
 
 export const useAnimation = (
   base: string,
-  classes: [string, string?],
+  classes: [string?, string?],
   exit?: number
 ) => {
   const ref = useRef(classes)
   const [hasDelay, setHasDelay] = useState(false)
+  const [isExiting, setIsExiting] = useState(false)
 
   const getClientClassElement = useCallback(() => {
     const oneClassElement = document.getElementsByClassName(base)[0]
@@ -48,6 +49,7 @@ export const useAnimation = (
       // To the exit state class and end animation.
       classElement.className = ref.current[1]
       e.preventDefault()
+      setIsExiting(true)
       if (typeof exit != 'undefined')
         setTimeout(() => {
           setHasDelay(true)
@@ -69,6 +71,7 @@ export const useAnimation = (
 
     anchor.dispatchEvent(clickEvent)
     anchor = null
+    setIsExiting(false)
   }, [hasDelay])
 
   // ---------- Initial effect - //
@@ -81,7 +84,7 @@ export const useAnimation = (
     if (classElement == null) return
 
     // To the initial state class.
-    classElement.className = ref.current[0]
+    classElement.className = ref.current[0] as string
     const animateId = requestAnimationFrame(() => {
       // To the base class and start animation
       classElement.className = base
@@ -90,7 +93,7 @@ export const useAnimation = (
     return () => {
       cancelAnimationFrame(animateId)
     }
-  }, [base, getClientClassElement])
+  }, [base, getClientClassElement, isExiting])
 
   // ---------- Exit effect - //
   useLayoutEffect(() => {
@@ -103,7 +106,7 @@ export const useAnimation = (
       if (cleanupDom == null) return
 
       // cleanup to the initial state class and end the animation.
-      cleanupDom.className = cleanup
+      cleanupDom.className = cleanup as string
       cleanupDom = null
     }
   }, [clickHandler, innerEffect])
