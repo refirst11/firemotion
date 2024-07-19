@@ -7,38 +7,42 @@ A build advanced UI using Hooks.
 
 ## useAnimation
 
-Animation of screen transition.  
-You can set initial and exit (option).
+A hook for handling page transition animations.
+
+### Parameters
+
+`baseClass`: Base styles  
+`[initialClass, exitClass]`: Array of initial and exit animation classes, use `undefined` for unused animations  
+`exitDelay`: Time to wait before exit (in seconds)
 
 ```tsx
+// Both animation
 const animate = useAnimation(styles.base, [styles.initial, styles.exit], 0.5)
+
+// Only initial animation
+const animateInitial = useAnimation(styles.base, [styles.initial])
+
+// Only exit animation
+const animateExit = useAnimation(styles.base, [undefined, styles.exit], 0.5)
+
 return <div className={animate}>...</div>
 ```
 
-styles.base is the base styles applied.  
-[styles.initial, styles.exit] is an array with the initial animation styles followed by the exit animation styles.  
-0.5 is the exit wait time.
-
 ## usePhotograph
 
-Hook to unblur blurred images outside the viewport.  
-Please cut the ref into a component so that it works properly.
+A hook that unblurs images as they enter the viewport.
+For proper functionality, apply the ref to a component.
 
-### sampler
+### Parameters
+
+visibleClass: CSS class to apply when the image enters the viewport
+
+### Return Value
+
+ref: A ref to be applied to the image element
 
 ```tsx
-type Images = {
-  src: string
-  alt: string
-  width: number
-  height: number
-}
-
-type ImgListProps = {
-  img: Images[]
-}
-
-const ImgItem = ({ img }: { img: Images }) => {
+const ImgItem = ({ img }) => {
   const imageRef = usePhotograph(styles.visible)
 
   return (
@@ -53,36 +57,11 @@ const ImgItem = ({ img }: { img: Images }) => {
   )
 }
 
-const ImgList = ({ images }: ImgListProps) => {
-  return (
-    <div className={styles.img_list}>
-      {images.map(img => (
-        <ImgItem key={img.id} img={img} />
-      ))}
-    </div>
-  )
-}
-
-export default CatList
-```
-
-```css
-.img_list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20;
-  justify-content: center;
-}
-
-.img_item {
-  object-fit: cover;
-  filter: blur(30px);
-  opacity: 0.7;
-  transition: all 0.8s ease-out;
-}
-
-.visible {
-  filter: blur(0);
-  opacity: 1;
-}
+const ImgList = ({ images }) => (
+  <div className={styles.img_list}>
+    {images.map(img => (
+      <ImgItem key={img.id} img={img} />
+    ))}
+  </div>
+)
 ```
