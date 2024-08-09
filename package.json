@@ -10,7 +10,7 @@
     "directory": "firemotion/src"
   },
   "scripts": {
-    "test": "vitest 'test/use-animation.test.js'"
+    "test": "vitest 'test/use-firemotion.test.js'"
   },
   "license": "MIT",
   "devDependencies": {
