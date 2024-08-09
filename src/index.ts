@@ -1,2 +1,2 @@
-export { useAnimation } from './use-animation'
-export { usePhotograph } from './use-photograph'
+import useFiremotion from './use-firemotion'
+export default useFiremotion
