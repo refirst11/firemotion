@@ -1,67 +1,52 @@
 # firemotion
 
-## React Animation hooks mini pack
+## React Hooks for CSS Motion
 
 This is for Easy and simple CSS animation.  
 A build advanced UI using Hooks.
 
-## useAnimation
+## useFiremotion
 
-A hook for handling page transition animations.
-
-### Parameters
-
-`baseClass`: Base styles  
-`[initialClass, exitClass]`: Array of initial and exit animation classes, use `undefined` for unused animations  
-`exitDelay`: Time to wait before exit (in seconds)
-
-```tsx
-// Both animation
-const animate = useAnimation(styles.base, [styles.initial, styles.exit], 0.5)
-
-// Only initial animation
-const animateInitial = useAnimation(styles.base, [styles.initial])
-
-// Only exit animation
-const animateExit = useAnimation(styles.base, [undefined, styles.exit], 0.5)
-
-return <div className={animate}>...</div>
-```
-
-## usePhotograph
-
-A hook that unblurs images as they enter the viewport.
-For proper functionality, apply the ref to a component.
+This hook is used to process page transitions by switching between three CSSs in order.  
+When mounting, it switches from entry style to base style.  
+When unmounting, it switches from base style to exit style.
 
 ### Parameters
 
-visibleClass: CSS class to apply when the image enters the viewport
-
-### Return Value
-
-ref: A ref to be applied to the image element
+First argument(string): Base css style  
+Second argument(Array<string\>): If you want to use exit only, set entry to undefined.  
+Third argument(number): Time to wait before exit (in seconds)
 
 ```tsx
-const ImgItem = ({ img }) => {
-  const imageRef = usePhotograph(styles.visible)
+import useFiremotion from 'firemotion'
 
-  return (
-    <img
-      ref={imageRef}
-      className={styles.img_item}
-      src={img.src}
-      alt={img.alt}
-      width={img.width}
-      height={img.height}
-    />
-  )
+function MyComponent() {
+  const animate = useFiremotion(styles.base, [styles.entry, styles.exit], 0.3)
+
+  return <div className={animate}>Motion content</div>
 }
-
-const ImgList = ({ images }) => (
-  <div className={styles.img_list}>
-    {images.map(img => (
-      <ImgItem key={img.id} img={img} />
-    ))}
-  </div>
-)
 ```
+
+### Example css
+
+```css
+.base {
+  opacity: 1;
+  transition: all 0.3s;
+}
+.entry {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.exit {
+  opacity: 0;
+  transition: all 0.3s;
+  transform: translateY(-20px);
+}
+```
+
+## Best Practices
+
+\- Assure your CSS transitions are smooth for the best user experience.  
+\- Use short motion durations to keep your UI responsive.  
+\- Test your motions on various devices to ensure performance.
