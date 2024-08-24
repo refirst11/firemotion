@@ -7,7 +7,7 @@ A build advanced UI using Hooks.
 
 ## useFiremotion
 
-This hook is used to process page transitions by switching between three CSSs in order.
+This hook is used to process page transitions by appropriately merging three CSS classes in order.
 
 ### Parameters
 
