@@ -104,7 +104,7 @@ const useFiremotion = (
     if (classElement == null || !ref.current[0]) return
 
     // To the entry state style.
-    classElement.className = ref.current[0]
+    classElement.className = base + ' ' + ref.current[0]
     const animateId = requestAnimationFrame(() => {
       // To the base style and start animation
       classElement.className = base
@@ -122,7 +122,7 @@ const useFiremotion = (
     if (classElement == null || !ref.current[1]) return
 
     const cleanup = ref.current[0] // Entry style.
-    classElement.className = ref.current[1] // Set exit style.
+    classElement.className = base + ' ' + ref.current[1] // Set exit style.
 
     return () => {
       if (cleanup) classElement.className = cleanup // Reset to entry style.
