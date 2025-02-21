@@ -19,10 +19,10 @@ This hook is used to process page transitions by appropriately merging three CSS
 import { useMotion } from firemotion
 
 function MyComponent() {
-  const animate = useMotion("base" {
-    entry: "entry"
-    exit: "exit"
-    delay: 0.2
+  const animate = useMotion("base", {
+    entry: "entry",
+    exit: "exit",
+    delay: 0.2,
   })
 
   return <div className={animate}>Motion content</div>
