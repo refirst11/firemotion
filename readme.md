@@ -1,50 +1,55 @@
 # firemotion
 
-## React Hooks for CSS Motion
+This is a CSS animation hook for small use on single elements.  
+If you want to animate the entire page please use ViewTransition API.
 
-This is for Easy and simple CSS motion.  
-A build advanced UI using Hooks.
-
-## useFiremotion
-
+A build advanced Animation using Hooks.  
 This hook is used to process page transitions by appropriately merging three CSS classes in order.
 
 ### Parameters
 
-First argument(string): Base css style  
-Second argument(Array<string\>): If you want to use exit only, set entry to undefined.  
-Third argument(number): Time to wait before exit (in seconds)
+1 - First argument(string): Base style  
+2 - Second argument(object): options object.
+
+- entry?: string a className of entry animation
+- exit?: string a className of exit animation
+- delay? number a time to wait until transitioning
 
 ```tsx
-import useFiremotion from 'firemotion'
+import { useMotion } from firemotion
 
 function MyComponent() {
-  const animate = useFiremotion(styles.base, [styles.entry, styles.exit], 0.3)
+  const animate = useMotion("base" {
+    entry: "entry"
+    exit: "exit"
+    delay: 0.2
+  })
 
   return <div className={animate}>Motion content</div>
 }
 ```
 
-### Example css
+### Animate Sampler
 
 ```css
 .base {
+  filter: blur(0px);
   opacity: 1;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 .entry {
+  filter: blur(4px);
   opacity: 0;
-  transform: translateY(20px);
 }
-.exit {
+.exit: {
+  filter: blur(4px);
   opacity: 0;
   transition: all 0.3s;
-  transform: translateY(-20px);
 }
 ```
 
 ## Best Practices
 
 \- Assure your CSS transitions are smooth for the best user experience.  
-\- Use short motion durations to keep your UI responsive.  
-\- Test your motions on various devices to ensure performance.
+\- Asynchronous animations have a better visual experience.  
+\- Use short motion durations to keep your UI responsive.
