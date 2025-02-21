@@ -1,2 +1,1 @@
-import useFiremotion from './use-firemotion'
-export default useFiremotion
+export { useMotion } from './use-firemotion'
