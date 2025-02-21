@@ -1,1 +1,1 @@
-export { useMotion } from './use-firemotion'
+export { useMotion } from './use-motion'
