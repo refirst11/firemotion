@@ -1,20 +1,15 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 
 let isMounted = false
 const useCapture = true
 
-const useFiremotion = (
-  base: string,
-  classes: [string?, string?],
-  exit?: number
-) => {
-  const ref = useRef(classes)
+type OptionsProps = {
+  entry?: string
+  exit?: string
+  delay?: number
+}
+
+export const useMotion = (base: string, options: OptionsProps) => {
   const [hasClickDelay, setHasClickDelay] = useState(false)
   const [anchor, setAnchor] = useState<HTMLAnchorElement | undefined>(undefined)
 
@@ -34,7 +29,7 @@ const useFiremotion = (
   }
 
   useEffect(() => {
-    if (!ref.current[1]) return
+    if (!options.exit) return
     let timerId: number
 
     const handleClick = (e: MouseEvent) => {
@@ -49,10 +44,10 @@ const useFiremotion = (
         return
       setAnchor(targetAnchor)
       e.preventDefault()
-      if (typeof exit !== 'undefined')
+      if (typeof options.delay !== 'undefined')
         timerId = setTimeout(() => {
           setHasClickDelay(true)
-        }, exit * 1000)
+        }, options.delay * 1000)
     }
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -76,7 +71,7 @@ const useFiremotion = (
         anchor.removeEventListener('click', handleClick, useCapture)
       })
     }
-  }, [exit, hasClickDelay])
+  }, [options.delay, hasClickDelay])
 
   useLayoutEffect(() => {
     if (!anchor) return
@@ -101,10 +96,10 @@ const useFiremotion = (
       return
     }
     const classElement = getClientClassElement()
-    if (classElement == null || !ref.current[0]) return
+    if (classElement == null || !options.entry) return
 
     // To the entry state style.
-    classElement.className = base + ' ' + ref.current[0]
+    classElement.className = base + ' ' + options.entry
     const animateId = requestAnimationFrame(() => {
       // To the base style and start animation
       classElement.className = base
@@ -119,17 +114,15 @@ const useFiremotion = (
   useLayoutEffect(() => {
     if (!anchor) return
     const classElement = getClientClassElement()
-    if (classElement == null || !ref.current[1]) return
+    if (classElement == null || !options.exit) return
 
-    const cleanup = ref.current[0] // Entry style.
-    classElement.className = base + ' ' + ref.current[1] // Set exit style.
+    const cleanup = options.entry // Entry style.
+    classElement.className = base + ' ' + options.exit // Set exit style.
 
     return () => {
       if (cleanup) classElement.className = cleanup // Reset to entry style.
     }
-  }, [anchor, getClientClassElement])
+  }, [anchor, base, getClientClassElement])
 
   return base
 }
-
-export default useFiremotion
