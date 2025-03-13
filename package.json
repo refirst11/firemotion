@@ -1,18 +1,21 @@
 {
   "name": "firemotion",
   "version": "1.0.2",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/refirst11/firemotion.git",
     "directory": "firemotion/src"
   },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "test": "vitest 'test/use-firemotion.test.js'",
     "minify": "for file in $(find dist -name '*.js'); do terser \"$file\" -c -m -o \"$file\"; done"
   },
-  "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "devDependencies": {
     "@types/css-modules": "^1.0.5",
     "@types/react": "^19.0.10",
